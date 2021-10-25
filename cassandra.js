@@ -49,7 +49,7 @@ const main = async () => {
     console.log('- Clustering keys:', table.clusteringKeys);
     // Execute query to get table data
     const result = await client.execute('SELECT * FROM store.shopping_cart');
-    console.log('Obtained result: ', result);;
+    console.log('Obtained result: ', result);
     console.log('Shutting down');
     client.shutdown();
     process.exit(0);
