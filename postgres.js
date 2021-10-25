@@ -7,7 +7,6 @@ You can run PostgreSql commands locally within the container by connecting to it
 
 "use strict"
 const { Pool } = require('pg');
-const { promisify } = require("util");
 
 const main = async () => {
     const pool = new Pool({
@@ -23,7 +22,7 @@ const main = async () => {
     } catch(err) {
         if(err.code != '42P04') { // database already exists
             console.log(err);
-            process.exit(0);
+            process.exit(1);
         }
     }
     // Create table
@@ -32,7 +31,7 @@ const main = async () => {
     } catch(err) {
         if(err.code != '42P07') { // relation already exists
             console.log(err);
-            process.exit(0);
+            process.exit(1);
         }
     }
     // Ensure table starts empty
@@ -40,14 +39,14 @@ const main = async () => {
         result = await pool.query(`TRUNCATE TABLE shopping_cart`);
     } catch(err) {
         console.log(err);
-        process.exit(0);
+        process.exit(1);
     }
     // Create single new row
     try {
         result = await pool.query(`INSERT INTO shopping_cart (userid, item_count) VALUES ('123', 2)`);
     } catch(err) {
         console.log(err);
-        process.exit(0);
+        process.exit(1);
     }
     // Create array of rows to insert, executing them in bulk
     let query = `INSERT INTO shopping_cart (userid, item_count) VALUES ('234', 5);`;
@@ -57,14 +56,14 @@ const main = async () => {
         result = await pool.query(query);
     } catch(err) {
         console.log(err);
-        process.exit(0);
+        process.exit(1);
     }
     // Execute query to get table data
     try {
         result = await pool.query('SELECT * FROM shopping_cart');
     } catch(err) {
         console.log(err);
-        process.exit(0);
+        process.exit(1);
     }
     console.log('Obtained result: ', result);
     console.log('Shutting down');

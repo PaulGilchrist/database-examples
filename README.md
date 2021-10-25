@@ -1,5 +1,7 @@
-# This project is a tutorial for using Cassandra, MongoDB, and Redis Cache
+# This project is a tutorial for using Cassandra, ElasticSearch, MongoDB, PostgreSQL, and Redis Cache
 
 Each database specific JavaScript has the needed Docker run command documented
 
-MySQL has no ARM64 version for Docker
+The following database engines were considered for this project but excluded for the following reasons
+* MySQL has no ARM64 version for Docker
+* SQLite has no official Docker image
