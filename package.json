@@ -1,18 +1,24 @@
 {
   "name": "cassandra",
   "version": "1.0.0",
-  "description": "Tutorial for using Cassandra",
-  "main": "cassandra.js",
+  "description": "Tutorial for using the most populat open source database and messaging platforms",
+  "main": "README.md",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "cassandra",
-    "docker"
+    "docker",
+    "elasticsearch",
+    "mongodb",
+    "postgresql",
+    "rabbitmq",
+    "redis"
   ],
   "author": "Paul Gilchrist",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.8.0",
     "cassandra-driver": "^4.6.3",
     "elasticsearch": "^16.7.2",
     "mongodb": "^4.1.3",

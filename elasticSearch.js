@@ -2,7 +2,8 @@
 Assumes a elasticSearch Docker container is already running locally, otherwise change the client connection details
     docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticSearch elasticsearch:7.14.2
 
-You can run elasticSearch commands locally within the container by connecting to its console and running the command `psql`
+Assumes the client npm package has been installed
+    npm i elasticsearch --save
 */
 
 "use strict"
@@ -15,21 +16,18 @@ const main = async () => {
         apiVersion: '7.x', // use the same version of your Elasticsearch instance
     });
     let response;
-    // client.ping({
-    //     // ping usually has a 3000ms timeout
-    //     requestTimeout: 1000
-    // }, (error) => {
-    //     if (error) {
-    //         console.trace('elasticsearch cluster is down!');
-    //     } else {
-    //         console.log('All is well');
-    //     }
-    // });
+    try {
+        response = await client.ping({ requestTimeout: 1000 }); // ping usually has a 3000ms timeout
+    } catch (err) {
+        console.trace('elasticsearch cluster is down!');
+        // console.log(err);
+        process.exit(1);
+    }
     try {
         response = await client.cluster.health();
     } catch (err) {
         console.log(err);
-        process.exit(0);
+        process.exit(1);
     }
     // Delete the old index if it exists
     try {
@@ -49,10 +47,10 @@ const main = async () => {
         response = await client.index({
             index: 'store',
             id: '123',
-            type: 'shopping_cart',
+            type: 'shoppingCart',
             body: {
-                'item_count': 2,
-                'last_update_timestamp': Date.now()
+                'itemCount': 2,
+                'lastModifiedDate': Date.now()
             }
         });
     } catch (err) {
@@ -60,19 +58,23 @@ const main = async () => {
         process.exit(1);
     }
     // Create array of rows to insert, executing them in bulk
-    const dataset = [{
-        id: '234',
-        item_count: 5,
-        last_update_timestamp: Date.now()
-    }, {
-        id: '345',
-        item_count: 3,
-        last_update_timestamp: Date.now()
-    }, {
-        id: '456',
-        item_count: 6,
-        last_update_timestamp: Date.now()
-    }];
+    const dataset = [
+        {
+            id: '234',
+            itemCount: 5,
+            lastModifiedDate: Date.now()
+        },
+        {
+            id: '345',
+            itemCount: 3,
+            lastModifiedDate: Date.now()
+        },
+        {
+            id: '456',
+            itemCount: 6,
+            lastModifiedDate: Date.now()
+        }
+    ];
     const body = dataset.flatMap(doc => [{ index: { _index: 'store' } }, doc]);
     const bulkResponse = await client.bulk({ refresh: true, body });
     if (bulkResponse.errors) {
@@ -98,7 +100,7 @@ const main = async () => {
     }
     // Count shopping carts
     try {
-        response = await client.count({ index: 'store', type: 'shopping_cart' });
+        response = await client.count({ index: 'store', type: 'shoppingCart' });
         console.log(`${response.count} shopping carts`);
     } catch (err) {
         console.log(err);
@@ -108,7 +110,7 @@ const main = async () => {
     try {
         response = await client.search({
             index: 'store',
-            type: 'shopping_cart',
+            type: 'shoppingCart',
             body: {
                 query: {
                     wildcard: { 'id': '*3*' }

@@ -2,6 +2,9 @@
 Assumes a Redis Docker container is already running locally, otherwise change the client connection details
     docker run -d -p 6379:6379 --name redis redis
 
+Assumes the client npm package has been installed
+    npm i redis --save
+
 You can run Redis commands locally within the container by connecting to its console and running the command `mongo`
 */
 
@@ -29,10 +32,10 @@ const main = async () => {
     let batch = client.batch();
     const batchSet = promisify(batch.set).bind(batch); // Add support for async/await
     const batchExec = promisify(batch.exec).bind(batch); // Add support for async/await
-    batchSet('123', JSON.stringify({ itemCount: 2, last_update_timestamp: Date.now() }));
-    batchSet('234', JSON.stringify({ itemCount: 5, last_update_timestamp: Date.now() }));
-    batchSet('345', JSON.stringify({ itemCount: 3, last_update_timestamp: Date.now() }));
-    batchSet('456', JSON.stringify({ itemCount: 6, last_update_timestamp: Date.now() }));
+    batchSet('123', JSON.stringify({ itemCount: 2, lastModifiedDate: Date.now() }));
+    batchSet('234', JSON.stringify({ itemCount: 5, lastModifiedDate: Date.now() }));
+    batchSet('345', JSON.stringify({ itemCount: 3, lastModifiedDate: Date.now() }));
+    batchSet('456', JSON.stringify({ itemCount: 6, lastModifiedDate: Date.now() }));
     await batchExec(); // Could improve by checking resulting reply array
     const foundKeys = await keys('*3*');
     for(const key of foundKeys) {

@@ -2,6 +2,9 @@
 Assumes a PostgreSql Docker container is already running locally, otherwise change the client connection details
     docker run  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password --name postgres postgres:latest
 
+Assumes the client npm package has been installed
+    npm i pg --save
+
 You can run PostgreSql commands locally within the container by connecting to its console and running the command `psql`
 */
 
@@ -27,7 +30,7 @@ const main = async () => {
     }
     // Create table
     try {
-        result = await pool.query(`CREATE TABLE shopping_cart(userid text NOT NULL PRIMARY KEY, item_count int NOT NULL, last_update_timestamp timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL);`);
+        result = await pool.query(`CREATE TABLE shoppingCart(userId text NOT NULL PRIMARY KEY, itemCount int NOT NULL, lastModifiedDate timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL);`);
     } catch(err) {
         if(err.code != '42P07') { // relation already exists
             console.log(err);
@@ -36,22 +39,22 @@ const main = async () => {
     }
     // Ensure table starts empty
     try {
-        result = await pool.query(`TRUNCATE TABLE shopping_cart`);
+        result = await pool.query(`TRUNCATE TABLE shoppingCart`);
     } catch(err) {
         console.log(err);
         process.exit(1);
     }
     // Create single new row
     try {
-        result = await pool.query(`INSERT INTO shopping_cart (userid, item_count) VALUES ('123', 2)`);
+        result = await pool.query(`INSERT INTO shoppingCart (userId, itemCount) VALUES ('123', 2)`);
     } catch(err) {
         console.log(err);
         process.exit(1);
     }
     // Create array of rows to insert, executing them in bulk
-    let query = `INSERT INTO shopping_cart (userid, item_count) VALUES ('234', 5);`;
-    query += `INSERT INTO shopping_cart (userid, item_count) VALUES ('345', 3);`;
-    query += `INSERT INTO shopping_cart (userid, item_count) VALUES ('456', 6);`;
+    let query = `INSERT INTO shoppingCart (userId, itemCount) VALUES ('234', 5);`;
+    query += `INSERT INTO shoppingCart (userId, itemCount) VALUES ('345', 3);`;
+    query += `INSERT INTO shoppingCart (userId, itemCount) VALUES ('456', 6);`;
     try {
         result = await pool.query(query);
     } catch(err) {
@@ -60,7 +63,7 @@ const main = async () => {
     }
     // Execute query to get table data
     try {
-        result = await pool.query('SELECT * FROM shopping_cart');
+        result = await pool.query('SELECT * FROM shoppingCart');
     } catch(err) {
         console.log(err);
         process.exit(1);
