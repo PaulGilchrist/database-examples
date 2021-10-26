@@ -19,7 +19,7 @@ const main = async () => {
         port: 5432,
       });
     let result;
-    // Create table
+    // Create database
     try {
         result = await pool.query(`CREATE DATABASE store WITH OWNER 'postgres'`);
     } catch(err) {
