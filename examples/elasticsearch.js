@@ -1,6 +1,6 @@
 /*
 Assumes a elasticSearch Docker container is already running locally, otherwise change the client connection details
-    docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticSearch elasticsearch:7.14.2
+    docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch elasticsearch:7.14.2
 
 Assumes the client npm package has been installed
     npm i elasticsearch --save
@@ -20,26 +20,26 @@ const main = async () => {
         response = await client.ping({ requestTimeout: 1000 }); // ping usually has a 3000ms timeout
     } catch (err) {
         console.trace('elasticsearch cluster is down!');
-        // console.log(err);
+        // console.error(err);
         process.exit(1);
     }
     try {
         response = await client.cluster.health();
     } catch (err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Delete the old index if it exists
     try {
         response = await client.indices.delete({ index: 'store' });
     } catch (err) {
-        // console.log(err);
+        // console.error(err);
     }
     // Create a new empty index
     try {
         response = await client.indices.create({ index: 'store' });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Create a single document
@@ -54,7 +54,7 @@ const main = async () => {
             }
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Create array of rows to insert, executing them in bulk
@@ -103,7 +103,7 @@ const main = async () => {
         response = await client.count({ index: 'store', type: 'shoppingCart' });
         console.log(`${response.count} shopping carts`);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Execute query to get table data
@@ -124,7 +124,7 @@ const main = async () => {
           console.log(hit);
         })
     } catch (err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     console.log('Shutting down');

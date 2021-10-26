@@ -1,6 +1,6 @@
 /*
 Assumes a RabbitMQ Docker container is already running locally, otherwise change the client connection details
-    docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbitMQ --name rabbitMQ rabbitmq:3-management 
+    docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbitmq --name rabbitmq rabbitmq:3-management 
 
 Assumes the client npm package has been installed
     npm i amqplib --save

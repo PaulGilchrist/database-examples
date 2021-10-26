@@ -20,7 +20,7 @@ const main = async () => {
             password: "password"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     let result;
@@ -28,28 +28,28 @@ const main = async () => {
     try {
         result = await conn.query(`CREATE DATABASE IF NOT EXISTS store`);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Create table
     try {
         result = await conn.query(`CREATE TABLE IF NOT EXISTS store.shoppingCart(userId VARCHAR(10) NOT NULL PRIMARY KEY, itemCount int NOT NULL, lastModifiedDate timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL);`);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Ensure table starts empty
     try {
         result = await conn.query(`TRUNCATE TABLE store.shoppingCart`);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Create single new row
     try {
         result = await conn.query(`INSERT INTO store.shoppingCart (userId, itemCount) VALUES ('123', 2)`);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Create array of rows to insert, executing them in bulk
@@ -57,7 +57,7 @@ const main = async () => {
     try {
         result = await conn.query(query);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Execute query to get table data
@@ -65,7 +65,7 @@ const main = async () => {
         result = await conn.query('SELECT * FROM store.shoppingCart');
         console.log('Obtained result: ', result);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Close Connection

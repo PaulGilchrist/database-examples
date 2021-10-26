@@ -24,7 +24,7 @@ const main = async () => {
         result = await pool.query(`CREATE DATABASE store WITH OWNER 'postgres'`);
     } catch(err) {
         if(err.code != '42P04') { // database already exists
-            console.log(err);
+            console.error(err);
             process.exit(1);
         }
     }
@@ -33,7 +33,7 @@ const main = async () => {
         result = await pool.query(`CREATE TABLE shoppingCart(userId text NOT NULL PRIMARY KEY, itemCount int NOT NULL, lastModifiedDate timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL);`);
     } catch(err) {
         if(err.code != '42P07') { // relation already exists
-            console.log(err);
+            console.error(err);
             process.exit(1);
         }
     }
@@ -41,14 +41,14 @@ const main = async () => {
     try {
         result = await pool.query(`TRUNCATE TABLE shoppingCart`);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Create single new row
     try {
         result = await pool.query(`INSERT INTO shoppingCart (userId, itemCount) VALUES ('123', 2)`);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Create array of rows to insert, executing them in bulk
@@ -58,14 +58,14 @@ const main = async () => {
     try {
         result = await pool.query(query);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     // Execute query to get table data
     try {
         result = await pool.query('SELECT * FROM shoppingCart');
     } catch(err) {
-        console.log(err);
+        console.error(err);
         process.exit(1);
     }
     console.log('Obtained result: ', result);
