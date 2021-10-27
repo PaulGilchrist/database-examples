@@ -1,6 +1,9 @@
 /*
 Assumes a Cassandra Docker container is already running locally, otherwise change the client connection details
-    docker run -d -p 9042:9042 --name cassandra cassandra
+    Without persistance
+        docker run -d -p 9042:9042 --name cassandra cassandra
+    With persistance (must pre-create the directory `/Users/Shared/containerStorage/cassandra` on host before running container)
+        docker run -d -p 9042:9042 --name cassandra -v /Users/Shared/containerStorage/cassandra:/var/lib/cassandra cassandra
 
 Assumes the client npm package has been installed
     npm i cassandra-driver --save
@@ -43,14 +46,6 @@ const main = async () => {
         ['456', 6]
     ];
     await cassandra.concurrent.executeConcurrent(client, query, values);
-    // Execute query to get table details
-    const table = await client.metadata.getTable('store', 'shoppingCart');
-    console.log('Table information');
-    console.log('- Name: %s', table.name);
-    console.log('- Columns:', table.columns);
-    console.log('- Partition keys:', table.partitionKeys);
-    console.log('- Clustering keys:', table.clusteringKeys);
-    // Execute query to get table data
     const result = await client.execute('SELECT * FROM store.shoppingCart');
     console.log('Obtained result: ', result);
     console.log('Shutting down');

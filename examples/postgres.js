@@ -1,6 +1,9 @@
 /*
 Assumes a PostgreSql Docker container is already running locally, otherwise change the client connection details
-    docker run  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password --name postgres postgres:latest
+    Without persistance
+        docker run  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password --name postgres postgres:latest
+    With persistance (must pre-create the directory `/Users/Shared/containerStorage/postgres` on host before running container)
+        docker run  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password --name postgres -v /Users/Shared/containerStorage/postgres:/var/lib/postgresql/data postgres:latest
 
 Assumes the client npm package has been installed
     npm i pg --save

@@ -1,6 +1,9 @@
 /*
 Assumes a MongoDB Docker container is already running locally, otherwise change the client connection details
-    docker run -d -p 27017:27017 --name mongodb mongo
+    Without persistance
+        docker run -d -p 27017:27017 --name mongodb mongo
+    With persistance (must pre-create the directory `/Users/Shared/containerStorage/mongodb` on host before running container)
+        docker run -d -p 27017:27017 --name mongodb -v /Users/Shared/containerStorage/mongodb:/data/db mongo
 
 Assumes the client npm package has been installed
     npm i mongodb --save

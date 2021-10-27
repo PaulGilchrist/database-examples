@@ -1,6 +1,9 @@
 /*
 Assumes a Redis Docker container is already running locally, otherwise change the client connection details
-    docker run -d -p 6379:6379 --name redis redis
+    Without persistance
+        docker run -d -p 6379:6379 --name redis redis
+    With persistance (must pre-create the directory `/Users/Shared/containerStorage/redis` on host before running container)
+        docker run -d -p 6379:6379 --name redis -v /Users/Shared/containerStorage/redis:/data redis
 
 Assumes the client npm package has been installed
     npm i redis --save
