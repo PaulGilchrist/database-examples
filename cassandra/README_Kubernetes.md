@@ -6,9 +6,9 @@ The below steps show setting up Cassandra in a Kubernetes cluster without persis
 
 1) Ensure Kubernetes cluster is online
 
-2) Create three folders on the local host for storing the 3 cassandra node's data files, and update the 3 PersistentVolume files in the `kubernetes` folder to reflect their path.  If ever modifying the StatefulSet's replica count, you must first ensure an equal or greater number of pre-created local folders and PersistentVolume files referencing them.
+2) Create three folders on the local host for storing the 3 Cassandra containers' data files, and update the 3 PersistentVolume files in the `kubernetes` folder to reflect their path.  If ever modifying the StatefulSet's replica count, you must first ensure an equal or greater number of pre-created local folders and PersistentVolume files referencing them.
 
-3) Add all cassandra specific Kubernetes resources
+3) Add all Cassandra specific Kubernetes resources
 
 ```
 kubectl apply -f kubernetes
@@ -20,19 +20,22 @@ kubectl apply -f kubernetes
 kubectl describe statefulset cassandra
 ```
 
-5) Test cassandra
+5) Test Cassandra
 
 ```
 node cassandra
 ```
 
-You can optionally change the file named `cassandra-statefulset.yaml` to change the cassandra cluster node count (replicas).
-
-<mark>Initial client connection will take longer with multi-node vs single node cassandra clusters, but post connection performance will not be impacted.</mark>
+You can optionally change the file named `cassandra-statefulset.yaml` to change the cassandra cluster node count (replicas) first ensuring there are an appropriate number of precreated PersistentVolume.
 
 ```
-kubectl apply -f cassandra-statefulset.yaml
+kubectl apply -f kubernetes
 ```
+
+<mark>Initial client connection will take longer with multi-node vs single node Cassandra clusters, but post connection performance will not be impacted.</mark>
+
+<mark>If using for production, make sure to not allow access to Cassandra from outside of the Kubernetes cluster without first adding security.</mark>
+
 
 ## Cleanup
 

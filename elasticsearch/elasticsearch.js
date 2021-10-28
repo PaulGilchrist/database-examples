@@ -1,12 +1,5 @@
 /*
-Assumes a elasticSearch Docker container is already running locally, otherwise change the client connection details
-    Without persistance
-        docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch elasticsearch:7.14.2
-    With persistance (must pre-create the directory `/Users/Shared/containerStorage/elasticsearch` on host before running container)
-        docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch -v /Users/Shared/containerStorage/elasticsearch:/usr/share/elasticsearch/data elasticsearch:7.14.2
-
-Assumes the client npm package has been installed
-    npm i elasticsearch --save
+See either `README_Docker.md` or `README_Kubernetes.md` before running this nodeJS test
 */
 
 "use strict"

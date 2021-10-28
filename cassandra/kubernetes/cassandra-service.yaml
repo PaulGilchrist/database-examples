@@ -1,5 +1,4 @@
-#kubectl apply -f cassandra-service.yaml
-#kubectl delete service cassandra
+---
 apiVersion: v1
 kind: Service
 metadata:

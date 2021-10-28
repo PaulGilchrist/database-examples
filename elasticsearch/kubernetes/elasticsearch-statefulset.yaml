@@ -2,33 +2,29 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: cassandra
+  name: elasticsearch
   labels:
-    app: cassandra
+    app: elasticsearch
 spec:
-  serviceName: cassandra
-  replicas: 3
+  serviceName: elasticsearch
+  replicas: 1
   selector:
     matchLabels:
-      app: cassandra
+      app: elasticsearch
   template:
     metadata:
       labels:
-        app: cassandra
+        app: elasticsearch
     spec:
       terminationGracePeriodSeconds: 1800
       containers:
-      - name: cassandra
-        image: cassandra
+      - name: elasticsearch
+        image: elasticsearch:7.14.2
         ports:
-        - containerPort: 7000
-          name: intra-node
-        - containerPort: 7001
-          name: tls-intra-node
-        - containerPort: 7199
-          name: jmx
-        - containerPort: 9042
-          name: cql
+        - containerPort: 9200
+          name: http
+        - containerPort: 9300
+          name: transport
         resources:
           limits:
             cpu: "500m"
@@ -48,38 +44,28 @@ spec:
               - -c
               - nodetool drain
         env:
-          - name: MAX_HEAP_SIZE
-            value: 512M
-          - name: HEAP_NEWSIZE
-            value: 100M
-          - name: CASSANDRA_SEEDS
-            value: "cassandra-0.cassandra.default.svc.cluster.local"
-          - name: CASSANDRA_CLUSTER_NAME
-            value: "cluster1"
-          - name: CASSANDRA_DC
-            value: "datacenter1"
-          - name: CASSANDRA_RACK
-            value: "rack1"
+          - name: "discovery.type"
+            value: "single-node"
           - name: POD_IP
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
         livenessProbe:
           tcpSocket:
-            port: 9042
+            port: 9200
           initialDelaySeconds: 60
           periodSeconds: 20
         readinessProbe:
           tcpSocket:
-            port: 9042
+            port: 9200
           initialDelaySeconds: 30
           periodSeconds: 10
         volumeMounts:
-        - name: cassandra-pvc
-          mountPath: /var/lib/cassandra
+        - name: elasticsearch-pvc
+          mountPath: /usr/share/elasticsearch/data
   volumeClaimTemplates:
     - metadata:
-        name: cassandra-pvc
+        name: elasticsearch-pvc
       spec:
         accessModes:
           - ReadWriteOnce
