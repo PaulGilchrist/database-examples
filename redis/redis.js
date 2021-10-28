@@ -1,14 +1,5 @@
 /*
-Assumes a Redis Docker container is already running locally, otherwise change the client connection details
-    Without persistance
-        docker run -d -p 6379:6379 --name redis redis
-    With persistance (must pre-create the directory `/Users/Shared/containerStorage/redis` on host before running container)
-        docker run -d -p 6379:6379 --name redis -v /Users/Shared/containerStorage/redis:/data redis
-
-Assumes the client npm package has been installed
-    npm i redis --save
-
-You can run Redis commands locally within the container by connecting to its console and running the command `mongo`
+See either `README_Docker.md` or `README_Kubernetes.md` before running this nodeJS test
 */
 
 "use strict";

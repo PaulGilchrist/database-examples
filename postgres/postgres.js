@@ -1,14 +1,5 @@
 /*
-Assumes a PostgreSql Docker container is already running locally, otherwise change the client connection details
-    Without persistance
-        docker run  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password --name postgres postgres:latest
-    With persistance (must pre-create the directory `/Users/Shared/containerStorage/postgres` on host before running container)
-        docker run  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password --name postgres -v /Users/Shared/containerStorage/postgres:/var/lib/postgresql/data postgres:latest
-
-Assumes the client npm package has been installed
-    npm i pg --save
-
-You can run PostgreSql commands locally within the container by connecting to its console and running the command `psql`
+See either `README_Docker.md` or `README_Kubernetes.md` before running this nodeJS test
 */
 
 "use strict"

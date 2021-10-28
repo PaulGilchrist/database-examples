@@ -1,15 +1,5 @@
 /*
-Assumes a RabbitMQ Docker container is already running locally, otherwise change the client connection details
-    Without persistance
-        docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbitmq --name rabbitmq rabbitmq:3-management 
-    With persistance (must pre-create the directory `/Users/Shared/containerStorage/rabbitmq` on host before running container)
-        docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbitmq --name rabbitmq -v /Users/Shared/containerStorage/rabbitmq:/var/lib/rabbitmq rabbitmq:3-management 
-
-Assumes the client npm package has been installed
-    npm i amqplib --save
-
-You can connect to the management UI at http://localhost:15672
-Default username and password of guest / guest
+See either `README_Docker.md` or `README_Kubernetes.md` before running this nodeJS test
 */
 
 "use strict"

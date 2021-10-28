@@ -1,14 +1,5 @@
 /*
-Assumes a MariaDB Docker container is already running locally, otherwise change the client connection details
-    Without persistance
-        docker run -d -p 3306:3306 -e MARIADB_ROOT_PASSWORD=password --name mariadb mariadb:latest
-    With persistance (must pre-create the directory `/Users/Shared/containerStorage/mariadb` on host before running container)
-        docker run -d -p 3306:3306 -e MARIADB_ROOT_PASSWORD=password --name mariadb -v /Users/Shared/containerStorage/mariadb:/var/lib/mysql mariadb:latest
-
-Assumes the client npm package has been installed
-    npm i mariadb --save
-
-You can run MariaDB commands locally within the container by connecting to its console and running the command `mysql`
+See either `README_Docker.md` or `README_Kubernetes.md` before running this nodeJS test
 */
 
 "use strict"

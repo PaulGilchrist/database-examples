@@ -1,14 +1,5 @@
 /*
-Assumes a MongoDB Docker container is already running locally, otherwise change the client connection details
-    Without persistance
-        docker run -d -p 27017:27017 --name mongodb mongo
-    With persistance (must pre-create the directory `/Users/Shared/containerStorage/mongodb` on host before running container)
-        docker run -d -p 27017:27017 --name mongodb -v /Users/Shared/containerStorage/mongodb:/data/db mongo
-
-Assumes the client npm package has been installed
-    npm i mongodb --save
-
-You can run MongoDB commands locally within the container by connecting to its console and running the command `mongo`
+See either `README_Docker.md` or `README_Kubernetes.md` before running this nodeJS test
 */
 
 "use strict";

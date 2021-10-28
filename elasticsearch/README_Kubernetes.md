@@ -1,4 +1,4 @@
-# Example: Deploying Cassandra to a Kubernetes cluster using StatefulSets
+# Example: Deploying Elastic Search to a Kubernetes cluster using StatefulSets
 
 The below steps show setting up Elastic Search in a Kubernetes cluster without persistance, since persistance is too cloud or hardware/os specific, and not required in this example.
 
