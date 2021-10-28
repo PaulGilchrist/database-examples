@@ -11,7 +11,7 @@ This project is a tutorial for using the most popular and heavily used open sour
 * RabbitMQ
 * Redis Cache
 
-Each database or messaging platform specific JavaScript file has the needed Docker run command and NPM pagage install command documented at the top of the file.
+Each database or messaging platform specific JavaScript file has the needed Docker run command, persistance path, and NPM pagage install command documented at the top of the file.  If wanting more advanced production level capabilities like encryption, or network isolation, Kubernetes should be used including its built in ingress gateway.  This will allow for the container's configuration to remain simple while offloading these capabilities to a more standardized orchestration layer.  This can also remove the need for each container to maintain its own authentication, offloading this to Kubernetes.
 
 The following database engines were considered for this project but excluded for the following reasons:
 
@@ -20,8 +20,11 @@ The following database engines were considered for this project but excluded for
 * Neo4j has no official ARM64 version for Docker
 * SQLite has no official Docker image
 
-## To Do
+## Initial Setup
 
-* Show how each container can be used with either persistance or no persistance
-* Show how each container can be added to Kubernetes in its own network but accessable through an ingress controller
-* Show how each container can be secured (authentication) and encrypted (TLS) in transit
+Make sure to load all the required NPM packages before running any of the node tests
+```cmd
+npm i cassandra-driver --save
+```
+
+All test require either Docker or Kubernetes environments with setup instructions for each covered in the respective sub-folders

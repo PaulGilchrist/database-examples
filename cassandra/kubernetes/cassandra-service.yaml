@@ -1,0 +1,17 @@
+#kubectl apply -f cassandra-service.yaml
+#kubectl delete service cassandra
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cassandra
+  name: cassandra
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - protocol: TCP
+    port: 9042
+    targetPort: 9042
+  selector:
+    app: cassandra
+  type: LoadBalancer

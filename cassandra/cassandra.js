@@ -1,21 +1,15 @@
 /*
-Assumes a Cassandra Docker container is already running locally, otherwise change the client connection details
-    Without persistance
-        docker run -d -p 9042:9042 --name cassandra cassandra
-    With persistance (must pre-create the directory `/Users/Shared/containerStorage/cassandra` on host before running container)
-        docker run -d -p 9042:9042 --name cassandra -v /Users/Shared/containerStorage/cassandra:/var/lib/cassandra cassandra
-
-Assumes the client npm package has been installed
-    npm i cassandra-driver --save
-
-You can run Cassandra commands locally within the container by connecting to its console and running the command `cqlsh`
+See either `README_Docker.md` or `README_Kubernetes.md` before running this nodeJS test
 */
 
 "use strict"
+const args = require("minimist")(process.argv.slice(2)); // Get arguments by name rather than by index
 const cassandra = require('cassandra-driver');
 
+const contactPoints = (args["contactPoints"] || process.env.contactPoints || '127.0.0.1').split(',');
+
 const main = async () => {
-    const client = new cassandra.Client({ contactPoints: ['127.0.0.1'], localDataCenter: 'datacenter1' });
+    const client = new cassandra.Client({ contactPoints: contactPoints, localDataCenter: 'datacenter1' });
     await client.connect()
     console.log(`Connected to cluster with ${client.hosts.length} host(s): ${client.hosts.keys()}`);
     // List hosts
